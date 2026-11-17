@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteIdentity } from '../data/site';
+import { heroProfile } from '../data/profile';
+import Hero from '../components/sections/Hero.astro';
+---
+
+<BaseLayout
+  title={`${siteIdentity.brand} | Personal Finance Portfolio`}
+  description={heroProfile.description}
+>
+  <Hero />
+</BaseLayout>

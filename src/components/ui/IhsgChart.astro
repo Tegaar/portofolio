@@ -1,0 +1,134 @@
+---
+import { ChartNoAxesCombined } from 'lucide-react';
+import { ihsgMarket } from '../../data/market';
+---
+
+<section
+  class="market-card"
+  id="market-context"
+  aria-labelledby="market-title"
+  tabindex="-1"
+  data-ihsg-chart
+>
+  <header class="market-heading">
+    <div>
+      <p class="market-eyebrow">Indonesian equity market</p>
+      <h2 id="market-title">{ihsgMarket.title} <span>({ihsgMarket.localName})</span></h2>
+    </div>
+    <span class="market-mark" aria-hidden="true"><ChartNoAxesCombined size={20} strokeWidth={1.5} /></span>
+  </header>
+
+  <div class="market-stage">
+    <div
+      class="market-embed"
+      data-widget-mount
+      data-symbol={ihsgMarket.symbol}
+      data-script-url={ihsgMarket.widgetScriptUrl}
+      data-source-url={ihsgMarket.sourceUrl}
+      hidden
+    ></div>
+    <div class="market-fallback" data-chart-fallback>
+      <p class="fallback-title" data-chart-status role="status">Chart unavailable</p>
+    </div>
+  </div>
+
+  <footer class="market-caption">
+    <div class="tradingview-widget-copyright market-attribution">
+      <a href={ihsgMarket.providerUrl} target="_blank" rel="noopener noreferrer nofollow">
+        <span class="blue-text">Track all markets on TradingView</span>
+      </a>
+    </div>
+    <p>{ihsgMarket.dataLabel}</p>
+  </footer>
+</section>
+
+<script>
+  import { initializeIhsgChart } from '../../lib/ihsg-chart';
+
+  initializeIhsgChart();
+</script>
+
+<style>
+  .market-card {
+    min-width: 0;
+    padding: clamp(1rem, 2.5vw, 1.75rem);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-panel);
+    background: var(--surface-raised);
+    box-shadow: var(--shadow-subtle);
+  }
+
+  .market-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .market-eyebrow {
+    margin-bottom: var(--space-2);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    font-size: clamp(1.125rem, 1rem + 0.4vw, 1.375rem);
+    letter-spacing: -0.025em;
+    line-height: 1.4;
+  }
+
+  h2 span {
+    color: var(--text-muted);
+    font-size: 0.8em;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  .market-mark {
+    flex: 0 0 auto;
+    color: var(--accent-primary);
+  }
+
+  .market-stage {
+    height: clamp(16rem, 28vw, 20rem);
+    margin-top: var(--space-6);
+  }
+
+  .market-embed {
+    width: 100%;
+    height: 100%;
+    background: var(--surface-raised);
+  }
+
+  .market-embed :global(iframe) {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .market-fallback {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    padding: var(--space-4);
+    text-align: center;
+  }
+
+  .fallback-title {
+    color: var(--text-muted);
+    font-size: var(--text-small);
+  }
+
+  .market-caption {
+    display: grid;
+    gap: var(--space-2);
+    padding-top: var(--space-3);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    text-align: center;
+  }
+</style>

@@ -1,0 +1,55 @@
+---
+import { siteIdentity } from '../../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-content">
+    <div class="footer-identity">
+      <p class="footer-brand">{siteIdentity.brand}</p>
+      <p class="footer-tagline">{siteIdentity.tagline}</p>
+    </div>
+    <p class="copyright">&copy; {year} {siteIdentity.owner}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border-default);
+  }
+
+  .footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+    padding-block: var(--space-8);
+  }
+
+  .footer-identity {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .footer-brand {
+    color: var(--text-primary);
+    font-size: var(--text-small);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+
+  .footer-tagline,
+  .copyright {
+    color: var(--text-muted);
+    font-size: var(--text-small);
+  }
+
+  @media (max-width: 36rem) {
+    .footer-content {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+</style>

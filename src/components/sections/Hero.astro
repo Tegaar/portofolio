@@ -1,0 +1,349 @@
+---
+import { ArrowDown, ArrowUpRight, Download } from 'lucide-react';
+import { heroActions, heroProfile } from '../../data/profile';
+import IhsgChart from '../ui/IhsgChart.astro';
+---
+
+<section class="hero" aria-labelledby="hero-title" data-hero>
+  <div class="hero-ambient" aria-hidden="true"></div>
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <h1 id="hero-title"><span class="hero-greeting" data-hero-enter>{heroProfile.greeting}</span>{' '}<span class="hero-name" data-hero-enter>{heroProfile.name}</span></h1>
+      <p class="hero-positioning" data-hero-enter>
+        <span class="role-content">
+          <span class="role-sizer" aria-hidden="true">{heroProfile.positioning}</span>
+          <span class="role-fallback" data-role-fallback>{heroProfile.positioning}</span>
+          <button class="role-toggle" type="button" data-role-toggle aria-label="Pause role animation" hidden>
+            <span class="role-visual" data-role-animated aria-hidden="true"><span data-role-text data-roles={JSON.stringify(heroProfile.roles)}></span><span class="role-caret"></span></span>
+          </button>
+        </span>
+      </p>
+      <p class="hero-introduction" data-hero-enter>{heroProfile.introduction}</p>
+
+      <div class="hero-actions" aria-label="Portfolio resources">
+        {heroActions.map((action) => (
+          <div class="hero-action-group" data-hero-enter>
+            {action.href ? (
+              <a class:list={['hero-action', { 'hero-action--primary': action.id === 'projects' }]} href={action.href} download={action.download || undefined}>
+                {action.label}
+                {action.download ? <Download size={17} aria-hidden="true" /> : <ArrowUpRight size={17} aria-hidden="true" />}
+              </a>
+            ) : (
+              <button class:list={['hero-action', { 'hero-action--primary': action.id === 'projects' }]} type="button" disabled>
+                {action.label}
+                {action.download ? <Download size={17} aria-hidden="true" /> : <ArrowUpRight size={17} aria-hidden="true" />}
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <a class="hero-scroll" href="#market-context" data-hero-enter>
+        <span>Market context</span><ArrowDown size={16} aria-hidden="true" />
+      </a>
+    </div>
+    <div class="hero-market" data-hero-enter><IhsgChart /></div>
+  </div>
+</section>
+
+<script>
+  import { initializeHeroInteractions } from '../../lib/hero-interactions';
+
+  initializeHeroInteractions();
+</script>
+
+<style>
+  .hero {
+    --hero-copy-gap: clamp(1rem, 1.5vw, 1.125rem);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: clamp(2.25rem, 4vw, 3.75rem);
+  }
+
+  .hero::before,
+  .hero::after,
+  .hero-ambient {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .hero::before {
+    content: '';
+    background: radial-gradient(ellipse at 85% 35%, color-mix(in srgb, var(--accent-primary) 12%, transparent), transparent 65%);
+  }
+
+  .hero::after {
+    content: '';
+    background: radial-gradient(ellipse 30rem 22rem at var(--hero-spotlight-x, 50%) var(--hero-spotlight-y, 50%), color-mix(in srgb, var(--accent-primary) 12%, transparent), transparent 75%);
+    opacity: 0;
+    transition: opacity var(--duration-normal) var(--ease-standard);
+  }
+
+  .hero-ambient {
+    background-image:
+      linear-gradient(var(--border-default) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border-default) 1px, transparent 1px);
+    background-size: 5rem 5rem;
+    opacity: 0.26;
+    mask-image: radial-gradient(ellipse at 90% 35%, black, transparent 70%);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    max-width: 68rem;
+    gap: clamp(2.5rem, 5vw, 3.5rem);
+  }
+
+  .hero-copy,
+  .hero-market {
+    min-width: 0;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(1.75rem, 3.6vw, 3.25rem);
+    letter-spacing: -0.055em;
+    line-height: 1.02;
+  }
+
+  .hero-greeting,
+  .hero-name {
+    display: block;
+  }
+
+  .hero-greeting {
+    margin-bottom: var(--space-2);
+    color: var(--text-primary);
+    font-size: 0.64em;
+    font-weight: 450;
+    letter-spacing: -0.04em;
+  }
+
+  .hero-name {
+    position: relative;
+    isolation: isolate;
+    width: fit-content;
+    max-width: 100%;
+    color: var(--accent-primary);
+    font-weight: 650;
+    white-space: nowrap;
+  }
+
+  .hero-positioning {
+    max-width: 26rem;
+    margin-top: var(--hero-copy-gap);
+    color: var(--text-primary);
+    font-size: clamp(1.25rem, 0.95rem + 0.5vw, 1.375rem);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.4;
+  }
+
+  .role-content {
+    display: grid;
+    min-height: var(--control-size);
+    min-width: 0;
+  }
+
+  .role-sizer,
+  .role-fallback,
+  .role-toggle {
+    grid-area: 1 / 1;
+  }
+
+  .role-sizer {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .role-caret {
+    display: inline-block;
+    width: 2px;
+    height: 0.85em;
+    margin-inline-start: 0.15em;
+    vertical-align: -0.025em;
+    background: var(--accent-primary);
+  }
+
+  .role-toggle {
+    display: grid;
+    align-content: start;
+    width: 100%;
+    min-width: 0;
+    min-height: var(--control-size);
+    padding: 0;
+    border: 0;
+    border-radius: 0.25rem;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    text-align: start;
+    cursor: pointer;
+  }
+
+  .role-toggle:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 4px;
+  }
+
+  .hero-introduction {
+    max-width: 32rem;
+    margin-top: var(--hero-copy-gap);
+    color: var(--text-secondary);
+    font-size: clamp(1rem, 0.95rem + 0.2vw, 1.0625rem);
+    line-height: 1.75;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--space-3) var(--space-4);
+    margin-top: 1.25rem;
+  }
+
+  .hero-action-group {
+    display: grid;
+    flex: 1 1 11rem;
+    max-width: 16rem;
+  }
+
+  .hero-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    min-height: 3.25rem;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--border-interactive);
+    border-radius: var(--radius-control);
+    background: var(--surface-raised);
+    color: var(--text-primary);
+    font-size: var(--text-small);
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+      border-color var(--duration-fast) var(--ease-standard),
+      background-color var(--duration-fast) var(--ease-standard);
+  }
+
+  .hero-action--primary {
+    border-color: var(--accent-primary);
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
+  }
+
+  .hero-action:disabled {
+    cursor: not-allowed;
+  }
+
+  @media (hover: hover) {
+    a.hero-action:hover {
+      border-color: var(--accent-primary);
+      background: var(--surface-hover);
+    }
+
+    a.hero-action--primary:hover {
+      background: var(--accent-hover);
+      color: var(--surface-page);
+    }
+  }
+
+  .hero-scroll {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: var(--control-size);
+    margin-top: 1.25rem;
+    color: var(--text-muted);
+    font-size: var(--text-small);
+    text-decoration: none;
+  }
+
+  .hero-scroll:hover {
+    color: var(--accent-primary);
+  }
+
+  @media (min-width: 64rem) {
+    .hero-grid {
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr);
+      gap: clamp(1.75rem, 3.5vw, 3rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-greeting {
+      animation: hero-arrive 500ms var(--ease-standard) both;
+    }
+
+    .hero-name {
+      animation: hero-arrive 540ms 90ms var(--ease-standard) both;
+    }
+
+    .hero-positioning {
+      animation: hero-arrive 400ms 460ms var(--ease-standard) both;
+    }
+
+    .hero-introduction {
+      animation: hero-arrive 480ms 720ms var(--ease-standard) both;
+    }
+
+    .hero-action-group {
+      animation: hero-arrive 480ms 840ms var(--ease-standard) both;
+    }
+
+    .hero-action-group + .hero-action-group {
+      animation-delay: 920ms;
+    }
+
+    .hero-market {
+      animation: hero-arrive 650ms 220ms var(--ease-standard) both;
+    }
+
+    .hero-scroll {
+      animation: hero-arrive 400ms 1000ms var(--ease-standard) both;
+    }
+
+    .role-caret {
+      animation: caret-blink 1000ms steps(2, jump-none) infinite;
+    }
+
+    .hero[data-role-paused='true'] .role-caret,
+    .hero[data-document-hidden='true'] [data-hero-enter],
+    .hero[data-document-hidden='true'] .hero-scroll :global(svg) {
+      animation-play-state: paused;
+    }
+
+    .hero-scroll :global(svg) {
+      animation: scroll-cue 1600ms 1500ms ease-in-out 3;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .hero[data-spotlight-active='true']::after {
+      opacity: 1;
+    }
+
+  }
+
+  @keyframes hero-arrive {
+    from { opacity: 0; transform: translateY(0.6rem); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scroll-cue {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(0.3rem); }
+  }
+
+  @keyframes caret-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+</style>

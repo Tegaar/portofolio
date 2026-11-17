@@ -1,0 +1,67 @@
+---
+import { Moon, Sun } from 'lucide-react';
+---
+
+<button
+  type="button"
+  class="theme-toggle"
+  data-theme-toggle
+  aria-label="Switch to light theme"
+  title="Switch to light theme"
+  hidden
+>
+  <Sun className="theme-icon theme-icon--sun" size={20} strokeWidth={1.75} aria-hidden="true" />
+  <Moon className="theme-icon theme-icon--moon" size={20} strokeWidth={1.75} aria-hidden="true" />
+</button>
+
+<script>
+  import { initializeThemeToggle } from '../../lib/theme';
+
+  initializeThemeToggle();
+</script>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: var(--control-size);
+    height: var(--control-size);
+    padding: 0;
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-control);
+    background: var(--surface-raised);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition:
+      background-color var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard),
+      color var(--duration-fast) var(--ease-standard);
+  }
+
+  @media (hover: hover) {
+    .theme-toggle:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-interactive);
+      color: var(--accent-primary);
+    }
+  }
+
+  .theme-toggle:active {
+    background: var(--surface-hover);
+    border-color: var(--accent-primary);
+  }
+
+  :global(.theme-icon--moon) {
+    display: none;
+  }
+
+  :global([data-theme='light'] .theme-icon--sun) {
+    display: none;
+  }
+
+  :global([data-theme='light'] .theme-icon--moon) {
+    display: block;
+  }
+</style>

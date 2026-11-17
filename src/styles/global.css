@@ -1,0 +1,192 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+:root {
+  color-scheme: dark;
+  --surface-page: #080e1c;
+  --surface-raised: #101a2c;
+  --surface-hover: #162338;
+  --text-primary: #f3f6ff;
+  --text-secondary: #bcc9df;
+  --text-muted: #91a3be;
+  --border-default: #2a3952;
+  --border-interactive: #6e8bb7;
+  --accent-primary: #4d86f7;
+  --accent-hover: #8ab1ff;
+  --text-on-accent: #080e1c;
+  --focus-ring: #8ab1ff;
+  --shadow-subtle: 0 16px 48px rgb(0 0 0 / 0.12);
+
+  --font-body: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --text-small: 0.875rem;
+  --text-body: 1rem;
+  --text-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+  --text-heading: clamp(2.25rem, 1.75rem + 2.5vw, 4rem);
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --page-gutter: clamp(1.25rem, 4vw, 3rem);
+  --section-space: clamp(3rem, 8vw, 7rem);
+  --container-wide: 72rem;
+  --container-reading: 48rem;
+  --header-height: 5rem;
+  --layer-header: 20;
+  --layer-skip-link: 30;
+  --control-size: 2.75rem;
+  --radius-control: 0.75rem;
+  --radius-panel: 1.25rem;
+  --radius-pill: 999px;
+  --duration-fast: 140ms;
+  --duration-normal: 200ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --surface-page: #f7f9fe;
+  --surface-raised: #ffffff;
+  --surface-hover: #eaf0fb;
+  --text-primary: #13213c;
+  --text-secondary: #435572;
+  --text-muted: #596b85;
+  --border-default: #d7dfec;
+  --border-interactive: #7284a1;
+  --accent-primary: #2457b8;
+  --accent-hover: #19438f;
+  --text-on-accent: #ffffff;
+  --focus-ring: #2457b8;
+  --shadow-subtle: 0 16px 48px rgb(19 33 60 / 0.05);
+}
+
+@theme inline {
+  --color-canvas: var(--surface-page);
+  --color-surface: var(--surface-raised);
+  --color-surface-hover: var(--surface-hover);
+  --color-ink: var(--text-primary);
+  --color-secondary: var(--text-secondary);
+  --color-muted: var(--text-muted);
+  --color-line: var(--border-default);
+  --color-sapphire: var(--accent-primary);
+  --color-sapphire-hover: var(--accent-hover);
+  --color-on-sapphire: var(--text-on-accent);
+  --color-focus: var(--focus-ring);
+  --font-sans: var(--font-body);
+  --radius-button: var(--radius-control);
+  --radius-card: var(--radius-panel);
+  --shadow-soft: var(--shadow-subtle);
+}
+
+html {
+  scroll-padding-top: calc(var(--header-height) + var(--space-6));
+  background: var(--surface-page);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
+  margin: 0;
+  background: var(--surface-page);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  transition:
+    background-color var(--duration-normal) var(--ease-standard),
+    color var(--duration-normal) var(--ease-standard);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+#main-content {
+  flex: 1;
+  min-width: 0;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--text-primary);
+  font-weight: 600;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--text-heading);
+  letter-spacing: -0.045em;
+}
+
+p {
+  margin: 0;
+  overflow-wrap: break-word;
+}
+
+a {
+  color: var(--accent-primary);
+  text-underline-offset: 0.25em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 4px;
+}
+
+::selection {
+  background: var(--accent-primary);
+  color: var(--text-on-accent);
+}
+
+.container {
+  width: min(var(--container-wide), calc(100% - 2 * var(--page-gutter)));
+  margin-inline: auto;
+}
+
+.eyebrow {
+  color: var(--accent-primary);
+  font-size: var(--text-small);
+  font-weight: 650;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: var(--layer-skip-link);
+  inset-block-start: var(--space-3);
+  inset-inline-start: var(--page-gutter);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-control);
+  background: var(--surface-raised);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-subtle);
+  transform: translateY(calc(-100% - var(--space-6)));
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-normal: 0ms;
+  }
+}
